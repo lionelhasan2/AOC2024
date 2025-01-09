@@ -1,5 +1,5 @@
 # Advent of Code
-# Day 3: Ceres Search 
+# Day 4: Ceres Search 
 # Author: Lionel Hasan
 # Date: 2024-12-04
 
