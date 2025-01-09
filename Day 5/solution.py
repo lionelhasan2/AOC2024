@@ -18,20 +18,15 @@ def main():
     # Create a dictionary to store the rules
     rules = {}
     for rule in rules_list:
-        rule = rule.split('|')  # Split each rule string by the '|' character
-        key = int(rule[0])  # Convert the first part of the split string to an integer (this is the key)
-        value = int(rule[1].strip())  # Convert the second part of the split string to an integer (this is the value), after stripping any whitespace
-        
-        if key not in rules:  # Check if the key does not exist in the dictionary
-            rules[key] = value  # If it does not exist, set the dictionary entry to the value
+        key, value = map(int, rule.split('|'))  # Split and convert both parts to integers in one step
+        if key in rules:
+            if not isinstance(rules[key], list):
+                rules[key] = [rules[key]]  # Convert to list if not already a list
+            rules[key].append(value)  # Append the new value
         else:
-            if isinstance(rules[key], list):  # Check if the dictionary entry is already a list
-                rules[key].append(value)  # If it is a list, append the new value to the list
-            else:
-                rules[key] = [rules[key], value]  # If it is not a list, create a list with the existing value and the new value
-
+            rules[key] = value  # Set the dictionary entry to the value if key does not exist
+            
     sum_of_mid_pages = 0  # Initialize a variable to store the sum of the middle pages
-    all_pages_good = True  # Initialize a variable to store whether all pages are good
     # Check if any of the page's violate a rule by having a page printed before its prerequisite
     for pages in manual:
         pages = list(map(int, pages.split(',')))  # Split and convert to integers in one step
