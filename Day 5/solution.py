@@ -25,17 +25,18 @@ def main():
             rules[key].append(value)  # Append the new value
         else:
             rules[key] = value  # Set the dictionary entry to the value if key does not exist
-            
+
     sum_of_mid_pages = 0  # Initialize a variable to store the sum of the middle pages
     # Check if any of the page's violate a rule by having a page printed before its prerequisite
     for pages in manual:
-        pages = list(map(int, pages.split(',')))  # Split and convert to integers in one step
+        pages = [int(p) for p in pages.split(',')]
         all_pages_good = all(
-            not (pages[i] in rules and any(pages[j] in rules and pages[i] in rules[pages[j]] for j in range(i + 1, len(pages))))
+            not any(pages[i] in rules.get(pages[j], []) for j in range(i + 1, len(pages)))
             for i in range(1, len(pages))
         )
         if all_pages_good:
             sum_of_mid_pages += pages[len(pages) // 2]
+
     print(sum_of_mid_pages)  # Print the sum of the middle pages
 
 
